@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "5f93c2ff-1301-4b15-aa37-ed5533223d6d",
+		"name": "API JsonPlaceHolder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17105854"
+	},
+	"item": [
+		{
+			"name": "Recover registered users",
+			"item": [
+				{
+					"name": "GET - All users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Limit value by name\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson[0].name).to.eql(\"Leanne Graham\");\r",
+									"  pm.expect(responseJson[9].name).to.eql(\"Clementina DuBuque\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Limit value by id\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson[0].id).to.eql(1);\r",
+									"  pm.expect(responseJson[9].id).to.eql(10);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Equivalence partitioning by id and name\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson[4].id).to.eql(5);\r",
+									"  pm.expect(responseJson[4].name).to.eql(\"Chelsey Dietrich\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET -  Specific user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user exists by id\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  const id_user = parseInt(pm.environment.get('id_user'))\r",
+									"  pm.expect(responseJson.id).to.eqls(id_user);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create new user",
+			"item": [
+				{
+					"name": "POST - Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"created user with correct information\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.id).to.eql(11);\r",
+									"  pm.expect(responseJson.name).to.eql(\"Tester Test\");\r",
+									"  pm.expect(responseJson.username).to.eql(\"Test\");\r",
+									"  pm.expect(responseJson.email).to.eql(\"Test@teste.br\");\r",
+									"  pm.expect(responseJson.address.street).to.eql(\"Abc\");\r",
+									"  pm.expect(responseJson.address.suite).to.eql(\"Apt. 123\");\r",
+									"  pm.expect(responseJson.address.city).to.eql(\"Xyz\");\r",
+									"  pm.expect(responseJson.address.zipcode).to.eql(\"12345-6789\");\r",
+									"  pm.expect(responseJson.address.geo.lat).to.eql(\"-30\");\r",
+									"  pm.expect(responseJson.address.geo.lng).to.eql(\"80\");\r",
+									"  pm.expect(responseJson.phone).to.eql(\"551112345-6789\");\r",
+									"  pm.expect(responseJson.website).to.eql(\"teste.teste.com\");\r",
+									"  pm.expect(responseJson.company.name).to.eql(\"Testers\");\r",
+									"  pm.expect(responseJson.company.catchPhrase).to.eql(\"Artificial neural networks - Perceptron\");\r",
+									"  pm.expect(responseJson.company.bs).to.eql(\"enjoy the holidays\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"id\": 11,\r\n    \"name\": \"Tester Test\",\r\n    \"username\": \"Test\",\r\n    \"email\": \"Test@teste.br\",\r\n    \"address\": {\r\n      \"street\": \"Abc\",\r\n      \"suite\": \"Apt. 123\",\r\n      \"city\": \"Xyz\",\r\n      \"zipcode\": \"12345-6789\",\r\n      \"geo\": {\r\n        \"lat\": \"-30\",\r\n        \"lng\": \"80\"\r\n      }\r\n    },\r\n    \"phone\": \"551112345-6789\",\r\n    \"website\": \"teste.teste.com\",\r\n    \"company\": {\r\n      \"name\": \"Testers\",\r\n      \"catchPhrase\": \"Artificial neural networks - Perceptron\",\r\n      \"bs\": \"enjoy the holidays\"\r\n    }\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Create user dynamically",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.iterationData.get(\"new_id\");\r",
+									"pm.iterationData.get(\"new_name\");\r",
+									"pm.iterationData.get(\"new_username\");\r",
+									"pm.iterationData.get(\"new_email\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"id\": {{new_id}},\r\n    \"name\": \"{{new_name}}\",\r\n    \"username\": \"{{new_username}}\",\r\n    \"email\": \"{{new_email}}\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update registration data",
+			"item": [
+				{
+					"name": "PUT - Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"id\": 10,\r\n    \"name\": \"Clementina DuBuque\",\r\n    \"username\": \"Moriah.Stanton\",\r\n    \"email\": \"Rey.Padberg@karina.update\",\r\n    \"address\": {\r\n      \"street\": \"Kattie Turnpike\",\r\n      \"suite\": \"Suite 198\",\r\n      \"city\": \"Lebsackbury\",\r\n      \"zipcode\": \"31428-2261\",\r\n      \"geo\": {\r\n        \"lat\": \"-38.2386\",\r\n        \"lng\": \"57.2232\"\r\n      }\r\n    },\r\n    \"phone\": \"024-648-3804\",\r\n    \"website\": \"ambrose.net\",\r\n    \"company\": {\r\n      \"name\": \"Hoeger LLC\",\r\n      \"catchPhrase\": \"Centralized empowering task-force\",\r\n      \"bs\": \"target end-to-end models\"\r\n    }\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete user",
+			"item": [
+				{
+					"name": "DELETE - User by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"//Teste performatico pelo tempo de resposta",
+					"if (pm.request.method == 'GET' || pm.request.method == 'POST' || pm.request.method == 'PUT' || pm.request.method == 'DELETE') {",
+					"    pm.test(\"Response time is less than 2000ms\", function () {",
+					"        pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"    });",
+					"}",
+					"",
+					"//Abaixo estão as resposntas esperadas dependendo do tipo de requisição",
+					"if (pm.request.method == 'GET') {",
+					"    pm.test(\"Status code is 200\", function () {",
+					"        pm.response.to.have.status(200);",
+					"    });",
+					"",
+					"    pm.test(\"Status code name has string\", function () {",
+					"        pm.response.to.have.status(\"OK\");",
+					"    });",
+					"}",
+					"",
+					"if (pm.request.method == 'POST') {",
+					"",
+					"    pm.test(\"Successful POST request\", function () {",
+					"        pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+					"    });",
+					"    pm.test(\"Status code name has string\", function () {",
+					"        pm.response.to.have.status(\"Created\");",
+					"    });",
+					" //if (pm.info.requestName == 'POST - Criar usuario') {",
+					"        //Apos a criacaoo do usuario, será setado nas variaveis de ambiente \"AmbienteJHP\"",
+					"       //pm.environment.set(\"id_user\", pm.response.json().id);",
+					"   //}",
+					"}",
+					"",
+					"if (pm.request.method == 'PUT' || pm.request.method == 'DELETE') {",
+					"",
+					"    pm.test(\"Status code name has string\", function () {",
+					"        pm.response.to.have.status(\"OK\");",
+					"    });",
+					"",
+					"    pm.test(\"Successful PUT and DELETE request\", function () {",
+					"        pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+					"    });",
+					"}"
+				]
+			}
+		}
+	]
+}
